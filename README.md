@@ -274,7 +274,7 @@ application.secret_key = 'super_secret_key'
 - Restart Apache: `sudo service apache2 restart`
 - How to set up [automatic updates on Ubuntu Server](https://libre-software.net/ubuntu-automatic-updates/)
 - Linux Server Configraution [Session](https://www.youtube.com/watch?v=qDnuf0zfkYE&feature=youtu.be) 
-- Use [Fail2ban] to Secure Your Server(https://www.linode.com/docs/security/using-fail2ban-for-security/)
+- Use [Fail2ban to Secure Your Server](https://www.linode.com/docs/security/using-fail2ban-for-security/)
 - PostgreSQL [describe table](https://stackoverflow.com/questions/109325/postgresql-describe-table)
 - Reinstall [python-pip package](https://stackoverflow.com/questions/16237490/i-screwed-up-the-system-version-of-python-pip-on-ubuntu-12-10)
 - Fix [Broken Python pip](https://github.com/pypa/pipenv/issues/2122)
