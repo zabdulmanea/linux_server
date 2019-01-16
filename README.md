@@ -39,10 +39,10 @@ This project describes a baseline installation of a Linux server and prepares it
 sudo apt-get update
 sudo apt-get upgrade
 ```
-### Step 3.1: Use unattended-upgrades to automatically install updates
+#### Step 3.1: Use unattended-upgrades to automatically install updates
 - Install the `unattended-upgrades` package: `sudo apt install unattended-upgrades`
 - Edit the configuration file: `sudo nano /etc/apt/apt.conf.d/50unattended-upgrades`
-- uncomment the `updates` line: `${distro_id}:${distro_codename}-updates`. save then exit (`ctrl+x`, `y` then press `Enter`).
+- Uncomment the `updates` line: `${distro_id}:${distro_codename}-updates`. save then exit (`ctrl+x`, `y` then press `Enter`).
 - Enable automatic updates by running: `sudo nano /etc/apt/apt.conf.d/20auto-upgrades`
 - Copy and paste the following lines:
 ```
@@ -103,7 +103,7 @@ To                         Action      From
 - Change the firewall configuration to match the pervious internal firewall settings. Allow only ports 80(TCP), 123(UDP), and 2200(TCP).
 - Click `Save`
 
-## Step 5.1: Use Fail2Ban to monitor unsuccessful login attempts
+#### Step 5.1: Use Fail2Ban to monitor unsuccessful login attempts
 Fail2Ban is an intrusion prevention software framework that protects computer servers from brute-force attacks.
 - Install Fail2Ban: `sudo apt-get install fail2ban`
 - Rename a copy `fail2ban.conf` to `fail2ban.local`: `sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local`
