@@ -13,8 +13,9 @@ This project describes a baseline installation of a Linux server and prepares it
 * The web application is [Item Catalog project](https://github.com/zabdulmanea/items_catalog.git) created earlier in this Nanodegree program.
 
 ## Basic Information
-- **Visit Application Site:** [MOOC Providers Catalog](http://3.89.164.105.xip.io)
+- **Visit the web application:** [MOOC Providers Catalog](http://3.89.164.105.xip.io)
 - **Public IP Address:** 3.89.164.105
+- **Accessible SSH Port:** 2200
 
 ## Get a Virtual Private Server
 ### Step 1: Start a new Ubuntu Linux server instance on Amazon Lightsail
