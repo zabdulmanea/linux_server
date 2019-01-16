@@ -4,7 +4,7 @@
 
 ## Project Description
 
-This project describes a baseline installation of a Linux server and prepares it to host web applications. It aims to secure the server from a number of attack vectors, install and configure a database server, and deploy one of your existing web applications onto it. This project is guided by [Udacity’s Full Stack Developer Nanodegree Program](https://sa.udacity.com/course/full-stack-web-developer-nanodegree--nd004).
+This project describes a baseline installation of a Linux server and prepares it to host web applications. It aims to secure the server from a number of attack vectors, install and configure a database server, and deploy one of the existing web applications onto it. This project is guided by [Udacity’s Full Stack Developer Nanodegree Program](https://sa.udacity.com/course/full-stack-web-developer-nanodegree--nd004).
 
 * The virtual private server from [Amazon Lighsail](https://lightsail.aws.amazon.com/).
 * The Linux server distribution is [Ubuntu](https://www.ubuntu.com/download/server) 16.04 LTS.
@@ -51,7 +51,6 @@ APT::Periodic::Download-Upgradeable-Packages "1";
 APT::Periodic::AutocleanInterval "7";
 APT::Periodic::Unattended-Upgrade "1";
 ```
-- Enable it: `sudo dpkg-reconfigure --priority=low unattended-upgrades`
 - Check if it works by running: `sudo unattended-upgrades --dry-run --debug`, the output should be something like:
 ```
 Initial blacklisted packages: 
@@ -206,14 +205,14 @@ rm fb_client_secrets.json
 
 ### Step 13: Update Google OAuth Credentials
 - Go to [Google Cloud Plateform](https://console.cloud.google.com/home/dashboard?project=mooc-providers-catalog)
-- Add `xip.io` under Authorized domains
-- Add `http://3.89.164.105.xip.io` under Authorized JavaScript origins.
-- Add `	http://3.89.164.105.xip.io/`, `	http://3.89.164.105.xip.io/login`, `	http://3.89.164.105.xip.io/oauth2callback` under Authorized redirect URIs.
+- Under Authorized domains add `xip.io` 
+- Under Authorized JavaScript origins add `http://3.89.164.105.xip.io` 
+- Under Authorized redirect URIs add `http://3.89.164.105.xip.io/`, `	http://3.89.164.105.xip.io/login`, `http://3.89.164.105.xip.io/oauth2callback`.
 - Download `JSON` file and copy its content.
 - Go back to terminal as `grader` user.
 - Edit `client_secrets` file: `sudo nano /var/www/catalog/catalog/client_secrets.json` and paste JSON file content.
 
-### Step 14: Install dependencies
+### Step 14: Install the Web Application dependencies
 While logged in as grader, install
 ```
 sudo apt-get install python-pip
