@@ -187,11 +187,11 @@ postgres=# \q
 
 | File | Before change | After change |
 |------|---------------|--------------|
-| **__init__.py** | engine = create_engine('sqlite:///provider_courses.db?check_same_thread=False') | engine = create_engine('postgresql://catalog:catalog@localhost/catalog') |
-| **database_setup.py** | engine = create_engine('sqlite:///provider_courses.db') | engine = create_engine('postgresql://catalog:catalog@localhost/catalog') |
-| **__init__.py** | CLIENT_ID = json.loads(open('client_secrets.json', | CLIENT_ID = json.loads(open('/var/www/catalog/catalog/client_secrets.json', |
-| **__init__.py** | oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='') | oauth_flow = flow_from_clientsecrets('/var/www/catalog/catalog/client_secrets.json', scope='') |
-| **__init__.py** | app.run(host="0.0.0.0", port=8000) | app.run() |
+| **`__init__.py`** | engine = create_engine('sqlite:///provider_courses.db?check_same_thread=False') | engine = create_engine('postgresql://catalog:catalog@localhost/catalog') |
+| **`database_setup.py`** | engine = create_engine('sqlite:///provider_courses.db') | engine = create_engine('postgresql://catalog:catalog@localhost/catalog') |
+| **`__init__.py`** | CLIENT_ID = json.loads(open('client_secrets.json', | CLIENT_ID = json.loads(open('/var/www/catalog/catalog/client_secrets.json', |
+| **`__init__.py`** | oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='') | oauth_flow = flow_from_clientsecrets('/var/www/catalog/catalog/client_secrets.json', scope='') |
+| **`__init__.py`** | app.run(host="0.0.0.0", port=8000) | app.run() |
 
 - Remove unwanted files:
 ```
