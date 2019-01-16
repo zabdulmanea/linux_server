@@ -13,21 +13,21 @@ This project describes a baseline installation of a Linux server and prepares it
 * The web application is [Item Catalog project](https://github.com/zabdulmanea/items_catalog.git) created earlier in this Nanodegree program.
 
 ## Basic Information
-- **Application URL:** [MOOC Providers Catalog](http://3.89.164.105.xip.io)
+- **Visit Application Site:** [MOOC Providers Catalog](http://3.89.164.105.xip.io)
 - **Public IP Address:** 3.89.164.105
 
 ## Get a Virtual Private Server
 ### Step 1: Start a new Ubuntu Linux server instance on Amazon Lightsail
-- Log in to [Lightsail](https://lightsail.aws.amazon.com/) or create new one.
+- Log in to [Lightsail](https://lightsail.aws.amazon.com/) or create new account.
 - Click `Create an instance`.
 - Choose an instance image: `OS Only` then `Ubuntu 16.04 LTS`.
-- Choose the instance plan with the lowest tier of instance is just fine.
-- Give the instance a hostname or Keep the default name.
+- Choose the instance plan with the lowest tier of instance.
+- Give the instance a hostname or keep the default name.
 - Click `Create`.
 - The public IP address: `3.89.164.105` of the instance is displayed along with its name.
 
 ### Step 2: SSH into the server from local machine
-- From AWS Account Page cick `SSH Keys` and download your preferred key pair file.
+- From AWS Account Page click `SSH Keys` and download your preferred key pair file.
 - Rename the key pair file to `key.pem` then move it into the local folder `/~.ssh`.
 - In the terminal: type `chmod 600 ~/.ssh/key.pem`.
 - Now Login into the server as `ubuntu`: `ssh -i ~/.ssh/key.pem -p 2200 ubuntu@3.89.164.105`.
@@ -56,7 +56,7 @@ sudo ufw allow ntp
 sudo ufw enable                     # Enable UFW to be active
 ```
 
-- Check UFW status `sudo ufw status`, the output should be like this:
+- Check UFW status `sudo ufw status`, the output should be similar to this:
 ```
 Status: active
 
@@ -128,7 +128,7 @@ sudo apt-get install postgresql
 ```
 - Switch to `postgres` server machine: `sudo su - postgres`
 - Open PostgreSQL terminal-based front-end: `psql`
-- Create `catalog database` with a `catalog user`. Then give this user a password and permission to "catalog" database.
+- Create `catalog database` with a `catalog user`. Then give this user a password and permission to `catalog database`.
 
 ```
 postgres=# CREATE DATABASE catalog;
@@ -149,6 +149,7 @@ postgres=# \q
 - Move to Item catalog directory: `cd /var/www/catalog/catalog`
 - Rename the `application.py` file: `mv application.py __init__.py`
 - Replace some lines to setup the Item Catalog with the server
+
 | File | Before change | After change |
 |------|---------------|--------------|
 | **__init__.py** | engine = create_engine('sqlite:///provider_courses.db?check_same_thread=False') | engine = create_engine('postgresql://catalog:catalog@localhost/catalog') |
@@ -156,7 +157,8 @@ postgres=# \q
 | **__init__.py** | CLIENT_ID = json.loads(open('client_secrets.json', | CLIENT_ID = json.loads(open('/var/www/catalog/catalog/client_secrets.json', |
 | **__init__.py** | oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='') | oauth_flow = flow_from_clientsecrets('/var/www/catalog/catalog/client_secrets.json', scope='') |
 | **__init__.py** | app.run(host="0.0.0.0", port=8000) | app.run() |
-- Remove unwanted file:
+
+- Remove unwanted files:
 ```
 rm database_setup.pyc
 rm provider_courses.db
@@ -166,13 +168,14 @@ rm fb_client_secrets.json
 - Run the database `python database_setup.py`
 
 
-### Step 13: Set it up in the server so that it functions correctly 
+### Step 13: Update Google OAuth Credentials
 - Go to [Google Cloud Plateform](https://console.cloud.google.com/home/dashboard?project=mooc-providers-catalog)
 - Add `xip.io` under Authorized domains
 - Add `http://3.89.164.105.xip.io` under Authorized JavaScript origins.
 - Add `	http://3.89.164.105.xip.io/`, `	http://3.89.164.105.xip.io/login`, `	http://3.89.164.105.xip.io/oauth2callback` under Authorized redirect URIs.
 - Download `JSON` file and copy its content.
-- Go back to terminal as `grader` user, Edit `client_secrets` file: `sudo nano /var/www/catalog/catalog/client_secrets.json` and paste JSON file content.
+- Go back to terminal as `grader` user.
+- Edit `client_secrets` file: `sudo nano /var/www/catalog/catalog/client_secrets.json` and paste JSON file content.
 
 ### Step 14: Install dependencies
 While logged in as grader, install
@@ -228,7 +231,7 @@ application.secret_key = 'super_secret_key'
 - Restart Apache: `sudo service apache2 restart`
 
 ## Run the application
-- Browse the Item Catalog through http://3.89.164.105.xip.io
+- Browse the Item Catalog Site through http://3.89.164.105.xip.io
 
 ## Helpful Resources and Commands
 - Apache's error log: `sudo tail /var/log/apache2/error.log`
