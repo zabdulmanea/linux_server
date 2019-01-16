@@ -39,6 +39,33 @@ This project describes a baseline installation of a Linux server and prepares it
 sudo apt-get update
 sudo apt-get upgrade
 ```
+### Step 3.1: Use unattended-upgrades to automatically install updates
+- Install the `unattended-upgrades` package: `sudo apt install unattended-upgrades`
+- Edit the configuration file: `sudo nano /etc/apt/apt.conf.d/50unattended-upgrades`
+- uncomment the `updates` line: `${distro_id}:${distro_codename}-updates`. save then exit (`ctrl+x`, `y` then press `Enter`).
+- Enable automatic updates by running: `sudo nano /etc/apt/apt.conf.d/20auto-upgrades`
+- Copy and paste the following lines:
+```
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Download-Upgradeable-Packages "1";
+APT::Periodic::AutocleanInterval "7";
+APT::Periodic::Unattended-Upgrade "1";
+```
+- Enable it: `sudo dpkg-reconfigure --priority=low unattended-upgrades`
+- Check if it works by running: `sudo unattended-upgrades --dry-run --debug`, the output should be something like:
+```
+Initial blacklisted packages: 
+Initial whitelisted packages: 
+Starting unattended upgrades script
+Allowed origins are: ['o=Ubuntu,a=xenial', 'o=Ubuntu,a=xenial-security', 'o=UbuntuESM,a=xenial', 'o=Ubuntu,a=xenial-updates']
+pkgs that look like they should be upgraded: 
+Fetched 0 B in 0s (0 B/s)                                                                                                                                                         
+fetch.run() result: 0
+blacklist: []
+whitelist: []
+No packages found that can be upgraded unattended and no pending auto-removals
+```
+- Restart Apache: `sudo service apache2 restart`
 
 ### Step 4: Change the SSH port from 22 to 2200
 - While logged in as `ubuntu`, edit `sshd_config` file: `sudo nano /etc/ssh/sshd_config`
@@ -76,10 +103,18 @@ To                         Action      From
 - Change the firewall configuration to match the pervious internal firewall settings. Allow only ports 80(TCP), 123(UDP), and 2200(TCP).
 - Click `Save`
 
+## Step 5.1: Use Fail2Ban to monitor unsuccessful login attempts
+Fail2Ban is an intrusion prevention software framework that protects computer servers from brute-force attacks.
+- Install Fail2Ban: `sudo apt-get install fail2ban`
+- Rename a copy `fail2ban.conf` to `fail2ban.local`: `sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local`
+- Open `jail.local`: `sudo nano /etc/fail2ban/jail.local`
+- Under `[sshd]` change `port = ssh` by `port = 2200`
+- Restart fail2ban service: `sudo service fail2ban restart`
+
 ## Give `grader` Access
 ### Step 6: Create a new user account named `grader`
 - While logged in as `ubuntu`, add user: `sudo adduser grader`.
-- Set password (required) and fill out other information (optional).
+- Set password `123` (required) and fill out any additional information (optional).
 
 ### Step 7: Give `grader` the permission to `sudo`
 - Create `/etc/sudoers.d/grader` file to give sudo access for the `grader`: `sudo nano /etc/sudoers.d/grader`.
@@ -101,7 +136,7 @@ To                         Action      From
 chmod 700 .ssh
 chmod 644 .ssh/authorized_keys
 ```
-- Read `sudo nano /etc/ssh/sshd_config` and check if `PasswordAuthentication` is set to `no`
+- Read `sudo nano /etc/ssh/sshd_config`, check if `PasswordAuthentication` and `PermitRootLogin` are set to `no` to improve the security of the server.
 - Restart SSH: `sudo service ssh restart`
 - Exit SSH connection: `exit`
 - From local machine login to the grader server machine:
@@ -237,7 +272,9 @@ application.secret_key = 'super_secret_key'
 ## Helpful Resources and Commands
 - Apache's error log: `sudo tail /var/log/apache2/error.log`
 - Restart Apache: `sudo service apache2 restart`
+- How to set up [automatic updates on Ubuntu Server](https://libre-software.net/ubuntu-automatic-updates/)
 - Linux Server Configraution [Session](https://www.youtube.com/watch?v=qDnuf0zfkYE&feature=youtu.be) 
+- Use [Fail2ban] to Secure Your Server(https://www.linode.com/docs/security/using-fail2ban-for-security/)
 - PostgreSQL [describe table](https://stackoverflow.com/questions/109325/postgresql-describe-table)
 - Reinstall [python-pip package](https://stackoverflow.com/questions/16237490/i-screwed-up-the-system-version-of-python-pip-on-ubuntu-12-10)
 - Fix [Broken Python pip](https://github.com/pypa/pipenv/issues/2122)
